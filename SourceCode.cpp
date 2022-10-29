@@ -42,9 +42,8 @@ int shortestPath(int source, int destination, vector<pair<int,int>>metroMap[])
             }
 
         }
-        float ans=DistfromS[destination];
-        return ans;
-
+        
+        return ans=DistfromS[destination];
     }
 
 void showStation(int stationCode)
