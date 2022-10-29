@@ -1,7 +1,5 @@
 #include<bits/stdc++.h>
 #define TOTSTAT 36
-
-
 using namespace std;
 
 vector<int>parent(TOTSTAT,-1);
@@ -43,7 +41,7 @@ int shortestPath(int source, int destination, vector<pair<int,int>>metroMap[])
 
         }
         
-        return ans=DistfromS[destination];
+        return DistfromS[destination];
     }
 
 void showStation(int stationCode)
@@ -195,5 +193,8 @@ int main()
     cout<<"\t\tpress any key to exit: ";
     int t;
     cin>>t;
+    
+    
     return 0;
+
 }
