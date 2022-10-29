@@ -1,5 +1,10 @@
 #include<bits/stdc++.h>
+#define TOTSTAT 36
+
+
 using namespace std;
+
+vector<int>parent(TOTSTAT,-1);
 
 void LinkStations(vector<pair<int,int>> metroMap[], int stationCode1, int stationCode2, int dist)
 {
@@ -8,13 +13,13 @@ void LinkStations(vector<pair<int,int>> metroMap[], int stationCode1, int statio
 }
 
 
-int shortestPath(int source, int destination, int totalStations, vector<pair<int,int>>metroMap[])
+int shortestPath(int source, int destination, vector<pair<int,int>>metroMap[])
     {
         priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>>pq;
-        vector<int>DistfromS(totalStations,INT_MAX);
+        vector<int>DistfromS(TOTSTAT,INT_MAX);
         DistfromS[source]=0;
         pq.push(make_pair(0,source));
-        vector<int>parent(totalStations,-1);
+        
 
         while(!pq.empty())
         {
@@ -82,18 +87,33 @@ void showStation(int stationCode)
     if(stationCode==35) cout<<"New Town";
 }
 
+void ShortestRoutePath(int destination)
+{
+    if(parent[destination]!=-1)
+    {
+        ShortestRoutePath(parent[destination]);
+        showStation(parent[destination]);
+        cout<<"-> ";
+    }
+}
+
+int fareCal(int jourDist)
+{
+    if(jourDist<=2000) return 5;
+    else if(jourDist>2000 && jourDist<=5000) return 10;
+    else if(jourDist>5000 && jourDist<=10000) return 15;
+    else if(jourDist>10000 && jourDist<=20000) return 20;
+    else return 25;
+
+}
+
 
 
 int main()
 {
-int t=1;
-while(t==1)
-{
 
-    
     int source, destination;
-    int totalStations=36;
-    vector<pair<int,int>> metroMap[totalStations];
+    vector<pair<int,int>> metroMap[TOTSTAT];
     LinkStations(metroMap, 0, 1, 1900);
     LinkStations(metroMap, 1, 2, 3300);
     LinkStations(metroMap, 2, 3, 5800);
@@ -156,6 +176,8 @@ while(t==1)
     cin>>source;
     cout<<"\t\tPlease Enter the Destination Station code: ";
     cin>>destination;
+    int jourDist=shortestPath(source,destination, metroMap);
+    float inKM= (float) jourDist/1000;
 
     cout<<"\n\t\tThe shortest route from ";
     showStation(source);
@@ -163,19 +185,16 @@ while(t==1)
     showStation(destination);
     cout<<" is through: ";
     cout<<endl;
-    //ShortestRoutePath();
+    cout<<"\t\t";
+    ShortestRoutePath(destination);
+    showStation(destination);
     cout<<endl;
-    cout<<" \t\tThe distance of the above journey will be "<<shortestPath(source,destination,totalStations,metroMap)<<" KM.";
-    cout<<"\n\t\tAnd the above journey would cost Rs.";//fare()
+    cout<<"\n\t\tThe distance of the above journey will be "<<inKM<<" KM.";
+    cout<<"\n\t\tAnd the above journey would cost Rs."<<fareCal(jourDist);
     cout<<endl<<endl;
-    cout<<"\t\tPress 1 for again using this application or press any key to exit: ";
+
+    cout<<"\t\tpress any key to exit: ";
+    int t;
     cin>>t;
-
-}
-    
-
     return 0;
 }
-
-
-
